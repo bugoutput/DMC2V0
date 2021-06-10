@@ -70,7 +70,6 @@ Values used when parameter of data value is unknown/unspecified:  -999, -999.000
 | Cosmos version 01.20  written by ms_to_v0 Version 2.12
 |   2015/09/24 00:00:00 to 3000/01/01 00:00:00 UTC   """                             
 
-#t=Template("     Latitude {{latitude}}")
-#t.render(latitude=md['latitude'])
+
 v0temp=Template(template)
 print(v0temp.render(tdata))
