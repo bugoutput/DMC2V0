@@ -3,4 +3,4 @@ Unfinished Python script to populate COSMOS V0 files using IRIS FDSN Web Service
 
 Uses obspy, jinja2 and an existing V0 template in order to automatically create V0 header files for any station/ channel combination available on IRIS DMC. 
 
-Code is in progress, still need to add channel traversal and output file creation tasks, and dial in whitespace management in jinja.
+Code is in progress, still need to dial in whitespace management for output files.
