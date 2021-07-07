@@ -3,17 +3,23 @@ from obspy.clients.fdsn import Client
 from jinja2 import Template
 
 client = Client("IRIS")
+
+# Select your desired station to create V0 files for here:
 network="RE"
 station="JKLK2"
 
+# Grab channel metadata from IRIS:
 inventory = client.get_stations(network=network, station=station, level="channel")
 invc=inventory.get_contents()
 chans=list(invc.values())[2]
 chnum=0
 
+# Loop over available channels for selected station and create corresponding V0 files: 
 for n in chans:
     md = inventory.get_channel_metadata(chans[chnum], datetime=None)
     scnl = chans[chnum].split(".")
+    
+    # Channel parameters being written to the newly-created V0 files:
     tdata = {
         "lat": float("%.3f" % md['latitude']),
         "lon": float("%.3f" % md['longitude']),
@@ -24,6 +30,9 @@ for n in chans:
         "chn": chnum+1,
         "lc": scnl[2]
         }
+    
+    # COSMOS V0 template being modified and written per each channel: 
+    
     template = """Raw acceleration counts   (Format v01.20 with 13 text lines)                    
     Record of                 Earthquake of Sun Jun 17, 2018  11:34 PDT             
     Hypocenter:  TBD                H=   km                                         
@@ -73,6 +82,7 @@ for n in chans:
     | Cosmos version 01.20  written by ms_to_v0 Version 2.12
     |   2015/09/24 00:00:00 to 3000/01/01 00:00:00 UTC   """
     
+    # Render template with modified parameters and write it to a .dlv0 text file: 
     
     v0temp = Template(template)
     outtext = v0temp.render(tdata)
